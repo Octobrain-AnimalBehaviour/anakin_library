@@ -1,5 +1,4 @@
 import logging
-import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -8,3 +7,5 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger()
+
+PDF = "pdf"

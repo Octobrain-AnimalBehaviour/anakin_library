@@ -5,11 +5,14 @@ import base64
 from PIL import Image
 from io import BytesIO
 import numpy as np
-
+from src.common.config import logger
+from ultralytics import YOLO
+from typing import List
 
 class VideoManager:
 
-    def __init__(self, sample_rate:int = 30, max_frames:int =15, mmpose_model_name:str = None, mmpose_model_path:str = None):
+    def __init__(self, sample_rate:int = 30, max_frames:int =15, mmpose_model_name:str = None,
+                 mmpose_model_path:str = None, custom_filter_model:str = None, classes:List = []):
         assert sample_rate > 0 == "The sample_rate must be greater than zero."
         assert max_frames > 0 == "The max_frames must be greater than zero."
 
@@ -17,6 +20,14 @@ class VideoManager:
         self.__max_frames = max_frames
         self.__frames = []
         self.__frames_skeleton = []
+        self.__clases = classes
+
+        if custom_filter_model:
+            self.__model = YOLO(custom_filter_model)
+        else:
+            self.__model = None
+
+        self.__filtering = True if custom_filter_model else False
 
         if mmpose_model_path:
             self.__inference = self.__load_skeleton_model(mmpose_model_name, mmpose_model_path)
@@ -55,12 +66,20 @@ class VideoManager:
 
             if idx_frame % self.__sample_rate == 0:
                 pil_img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                frames.append(pil_img)
+
+                if self.__filtering:
+                    results = self.__model(pil_img)
+                    prediction = results[0].names[results[0].probs.top1]
+
+                    if prediction in self.__clases:
+                        frames.append(pil_img)
+                else:
+                    frames.append(pil_img)
 
             idx_frame += 1
 
         assert len(frames) > 0 == "Current sample_rate return zero frames."
-        print("Returning video with {} frames sampled".format(len(frames)))
+        logger.info("Returning video with {} frames sampled".format(len(frames)))
 
         return frames
 

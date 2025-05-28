@@ -1,14 +1,14 @@
 from typing import List, Tuple
 from chromadb import Client, PersistentClient
-import tqdm
+from tqdm import tqdm
 from ..common.config import logger
 from ..embedding.embedding_loader import EmbeddingLoader
 
 class VectorDBClient:
-    def __init__(self, embedding_loader: EmbeddingLoader, chroma_db_dir, top_k_elements):
-        self.db_path = chroma_db_dir
-        self.top_k = top_k_elements
-        self.embedding_model = embedding_loader
+    def __init__(self, embedding_loader: EmbeddingLoader, db_dir, top_k_elements):
+        self.__db_path = db_dir
+        self.__top_k = top_k_elements
+        self.__embedding_model = embedding_loader
 
     def __call__(self, query: str, db_name: str, documents: List) -> List:
         """
@@ -19,7 +19,7 @@ class VectorDBClient:
         :param documents: list of all the identified chunks from the documents.
         :return: list of relevant passages based on the query.
         """
-        self.chroma_client = PersistentClient(path=self.db_path)
+        self.chroma_client = PersistentClient(path=self.__db_path)
         self.db = self.__create_or_load(db_name, documents)
 
         passages = self.__get_relevant_passages(query)
@@ -48,7 +48,7 @@ class VectorDBClient:
         :param documents:list of all the identified chunks from the documents.
         :return:db collection instance
         """
-        db = self.chroma_client.get_collection(name=db_name, embedding_function=self.embedding_model)
+        db = self.chroma_client.get_collection(name=db_name, embedding_function=self.__embedding_model)
         all_metadata = db.get(include=["metadatas"]).get('metadatas')
         distinct_files = set([x.get('file_name') for x in all_metadata])
         max_id = db.count() + 1
@@ -70,7 +70,7 @@ class VectorDBClient:
         :param documents: list of all the identified chunks from the documents.
         :return: db collection instance
         """
-        db = self.chroma_client.create_collection(name=db_name, embedding_function=self.embedding_model)
+        db = self.chroma_client.create_collection(name=db_name, embedding_function=self.__embedding_model)
 
         logger.info("Embedding creation process has started...")
         for i, d in enumerate(tqdm(documents)):
@@ -85,7 +85,7 @@ class VectorDBClient:
         :param query: question of interest
         :return: a list of the top_k most relevant passages for the input query.
         """
-        passages = self.db.query(query_texts=[query], n_results=self.top_k, include=['distances', 'documents'])
+        passages = self.db.query(query_texts=[query], n_results=self.__top_k, include=['distances', 'documents'])
         passages = [{"id": str(i), "snippet": str(text)} for i, text in zip(passages.get("ids")[0], passages.get("documents")[0])]
         return passages
 
