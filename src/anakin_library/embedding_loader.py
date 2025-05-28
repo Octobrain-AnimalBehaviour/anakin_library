@@ -1,4 +1,4 @@
-from ..common.config import logger
+from anakin_library.config import logger
 from chromadb import EmbeddingFunction, Embeddings, Documents
 from sentence_transformers import SentenceTransformer
 import os

@@ -5,7 +5,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 import numpy as np
-from src.common.config import logger
+from anakin_library.config import logger
 from ultralytics import YOLO
 from typing import List
 

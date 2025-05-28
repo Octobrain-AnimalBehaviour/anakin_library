@@ -1,5 +1,5 @@
 
-from src.common.config import logger
+from anakin_library.config import logger
 import json, time
 from unidecode import unidecode
 from openai import OpenAI

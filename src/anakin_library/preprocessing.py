@@ -1,7 +1,7 @@
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from typing import List
-from common.config import PDF,logger
+from anakin_library.config import PDF,logger
 from langchain_community.document_loaders import PyPDFLoader as pdf
 
 
