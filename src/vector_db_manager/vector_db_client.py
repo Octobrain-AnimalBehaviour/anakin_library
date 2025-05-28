@@ -1,13 +1,16 @@
 from typing import List, Tuple
 from chromadb import Client, PersistentClient
+from chromadb.utils import embedding_functions
 from tqdm import tqdm
 from ..common.config import logger
 from ..embedding.embedding_loader import EmbeddingLoader
 
 class VectorDBClient:
-    def __init__(self, embedding_loader: EmbeddingLoader, db_dir, top_k_elements):
+    def __init__(self, db_dir, top_k_elements, embedding_loader: EmbeddingLoader):
         self.__db_path = db_dir
         self.__top_k = top_k_elements
+        if embedding_loader is None:
+            self.__embedding_model = embedding_functions.DefaultEmbeddingFunction()
         self.__embedding_model = embedding_loader
 
     def __call__(self, query: str, db_name: str, documents: List) -> List:
