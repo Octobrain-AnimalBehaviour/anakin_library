@@ -16,7 +16,7 @@ class EmbeddingLoader(EmbeddingFunction):
             self.local_model = SentenceTransformer(embedding_model)
         logger.info("Model has been loaded successfully!")
 
-    def __call__(self, input_text: Documents, context: str) -> Embeddings:
+    def __call__(self, input_text: Documents, context: str = None) -> Embeddings:
         """
         Generates embeddings for the input_text based on a local model inference or an API call.
 
@@ -24,6 +24,6 @@ class EmbeddingLoader(EmbeddingFunction):
         :param context: addresses context to the input text
         :return: embedded representation of the input document text based on the local model or the API call.
         """
-        if context:
+        if context is not None:
             input_text = context + " " + input_text
         return self.local_model.encode(input_text).tolist()
