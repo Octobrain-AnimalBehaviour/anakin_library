@@ -9,6 +9,10 @@ dependencies = [
   "chromadb>=1.0.10",
   "sentence-transformers>=4.1.0",
   "tqdm>=4.67.1",
+  "ultralytics>=8.3",
+  "Unidecode>=1.4.0",
+  "openai>=1.82.0",
+  "opencv-python>=4.11.0"
 ]
 
 [build-system]
