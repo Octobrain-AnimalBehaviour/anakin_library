@@ -22,11 +22,6 @@ The **Animal Behavior Analyzer** is a tool designed to process videos of animals
 │   └── rag_papers/          # RAG-related resources
 ├── src/                     # Source code
 │   └── anakin_library/      # Core library for video processing and analysis
-└── cceb594d-cd8d-4681-96e2-7cd9a2f5be46/
-    ├── data_level0.bin      # Binary data for processing
-    ├── header.bin           # Metadata for video analysis
-    ├── length.bin           # Length data for video processing
-    └── link_lists.bin       # Link lists for RAG system
 ```
 
 ## Getting Started
