@@ -1,0 +1,35 @@
+[project]
+name = "anakin_library"
+version = "1.0.0"
+description = "A Python library that wraps ChromaDB and embeddings with custom vector DB"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+  "chromadb>=1.0.10",
+  "sentence-transformers>=4.1.0",
+  "tqdm>=4.67.1",
+  "ultralytics>=8.3",
+  "Unidecode>=1.4.0",
+  "openai>=1.82.0",
+  "opencv-python>=4.11.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "isort",
+  "flake8",
+  "mypy",
+  "pytest",
+]
