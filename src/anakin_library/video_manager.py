@@ -5,16 +5,17 @@ import base64
 from PIL import Image
 from io import BytesIO
 import numpy as np
-from anakin_library.config import logger
+from src.anakin_library.config import logger
 from ultralytics import YOLO
 from typing import List
 
 class VideoManager:
 
-    def __init__(self, sample_rate:int = 30, max_frames:int =15, mmpose_model_name:str = None,
+    def __init__(self, sample_rate:int = 10, max_frames:int =15, mmpose_model_name:str = None,
                  mmpose_model_path:str = None, custom_filter_model:str = None, classes:List = []):
-        assert sample_rate > 0 == "The sample_rate must be greater than zero."
-        assert max_frames > 0 == "The max_frames must be greater than zero."
+
+        assert sample_rate > 0, "The sample_rate must be greater than zero."
+        assert max_frames > 0, "The max_frames must be greater than zero."
 
         self.__sample_rate = sample_rate
         self.__max_frames = max_frames
@@ -36,10 +37,13 @@ class VideoManager:
 
     def upload_video(self, video_path: str):
 
-        self.__frames = self.__sample_video(video_path)
+        self.__frames, base64_frames = self.__sample_video(video_path)
 
         if self.__inference:
             self.__frames_skeleton = self.__extract_skeleton()
+        else:
+            self.__frames = base64_frames
+        return self.__frames
 
     def __load_skeleton_model(self, mmpose_model_name:str, mmpose_model_path:str):
         from mmpose.apis import MMPoseInferencer
@@ -55,6 +59,7 @@ class VideoManager:
         assert pathlib.Path(video_path).suffix == ".mp4", "The video extension should be .mp4"
 
         frames = []
+        base64_frames = []
         video = cv2.VideoCapture(video_path)
 
         idx_frame = 0
@@ -73,15 +78,19 @@ class VideoManager:
 
                     if prediction in self.__clases:
                         frames.append(pil_img)
+                        base64_frame = self.__transforme_to_base64(pil_img)
+                        base64_frames.append(base64_frame)
                 else:
                     frames.append(pil_img)
+                    base64_frame = self.__transforme_to_base64(pil_img)
+                    base64_frames.append(base64_frame)
 
             idx_frame += 1
 
-        assert len(frames) > 0 == "Current sample_rate return zero frames."
+        assert len(frames) > 0, "Current sample_rate return zero frames."
         logger.info("Returning video with {} frames sampled".format(len(frames)))
 
-        return frames
+        return frames, base64_frames
 
     def __extract_skeleton(self):
         base64Frames = []

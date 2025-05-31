@@ -2,15 +2,16 @@ from typing import List, Tuple
 from chromadb import Client, PersistentClient, EmbeddingFunction
 from chromadb.utils import embedding_functions
 from tqdm import tqdm
-from anakin_library.config import logger
+from src.anakin_library.config import logger
 
 class VectorDBClient:
-    def __init__(self, db_dir, top_k_elements, embedding_function: EmbeddingFunction = None):
+    def __init__(self, db_dir, top_k_elements:int = 3, embedding_function: EmbeddingFunction = None):
         self.__db_path = db_dir
         self.__top_k = top_k_elements
         if embedding_function is None:
             self.__embedding_model = embedding_functions.DefaultEmbeddingFunction()
-        self.__embedding_model = embedding_function
+        else:
+            self.__embedding_model = embedding_function
 
     def __call__(self, query: str, db_name: str, documents: List) -> List:
         """
