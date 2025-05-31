@@ -2,6 +2,10 @@
 
 The **Animal Behavior Analyzer** is a tool designed to process videos of animals and analyze their behavior to identify potential diseases or health conditions. By leveraging a Retrieval-Augmented Generation (RAG) system, it provides insights into animal health based on observed behaviors.
 
+## Challenge Submission
+
+This project is part of the **Moodeng AI Challenge**, submitted under **Track 3: AI for Augmenting Zoo Keepers**, with a focus on the **Care & Connection Insights** pathway. The system aims to support zoo keepers and field biologists in early detection of health conditions in wild and captive primates.
+
 ## Features
 
 - **Video Processing**: Analyze animal behavior from video files.
