@@ -1,23 +1,23 @@
-# Video Analysis Prompt: Monkey/Ape Health Condition Detection
+# base64 frames Analysis Prompt: Monkey/Ape Health Condition Detection
 
 ## Task Overview
-You are a specialized video analysis system designed to detect specific health conditions and pathological indicators in monkeys and apes. Your task is to carefully observe the provided video and determine the presence or absence of various qualitative features related to specific health conditions and pathologies.
+You are a specialized base64 frames analysis system designed to detect specific health conditions and pathological indicators in monkeys and apes. Your task is to carefully observe the provided base64 frames and determine the presence or absence of various qualitative features related to specific health conditions and pathologies.
 
 ## Instructions
-- Analyze the entire video carefully, observing all visible aspects of the animal
-- For each feature listed below, return **True** if the feature is present/visible in the video
-- Return **False** if the feature is not present/visible in the video
-- Base your assessment only on what you can clearly observe in the video
+- Analyze the entire base64 frames carefully, observing all visible aspects of the animal
+- For each feature listed below, return **True** if the feature is present/visible in the base64 frames
+- Return **False** if the feature is not present/visible in the base64 frames
+- Base your assessment only on what you can clearly observe in the base64 frames
 - If a feature is ambiguous or unclear, err on the side of caution and mark as False
 
 ## Keypoint Data Integration
-The video input will include pose estimation keypoints that track the animal's body landmarks throughout the video sequence. Utilize these keypoints to enhance your analysis by:
+The base64 frames input will include pose estimation keypoints that track the animal's body landmarks throughout the base64 frames sequence. Utilize these keypoints to enhance your analysis by:
 - Using joint positions to assess symmetrical vs asymmetrical limb movements
 - Analyzing posture angles and body alignment from keypoint coordinates
 - Detecting gait abnormalities through keypoint trajectory analysis
 - Measuring body proportions and detecting shape abnormalities (concave abdomen, protruding areas)
 - Tracking repetitive behaviors or movement patterns over time
-- Identifying subtle postural changes that may not be immediately visible in the raw video
+- Identifying subtle postural changes that may not be immediately visible in the raw base64 frames
 - Cross-referencing visual observations with quantitative keypoint data for more accurate assessments
 
 ## Health Conditions and Associated Features
@@ -273,7 +273,7 @@ Provide your analysis in the following JSON format:
     "Coughing": {
       "present": false,
       "confidence": 0.9,
-      "reasoning": "No coughing behavior observed during video"
+      "reasoning": "No coughing behavior observed during base64 frames"
     },
     "Sneezing": {
       "present": false,
@@ -350,7 +350,7 @@ Provide your analysis in the following JSON format:
     "Impaired_Eating": {
       "present": false,
       "confidence": 0.6,
-      "reasoning": "No eating behavior observed in video to assess"
+      "reasoning": "No eating behavior observed in base64 frames to assess"
     },
     "Impaired_Grooming": {
       "present": false,
@@ -395,7 +395,7 @@ Provide your analysis in the following JSON format:
     "Poor_Skin_Elasticity": {
       "present": false,
       "confidence": 0.5,
-      "reasoning": "Skin elasticity not clearly observable in video"
+      "reasoning": "Skin elasticity not clearly observable in base64 frames"
     },
     "Thickened_Saliva": {
       "present": false,
@@ -411,8 +411,8 @@ Provide your analysis in the following JSON format:
 - Each feature is categorized under its specific health condition/pathology
 - Focus on clear, observable indicators only
 - Consider the natural behavior variations among different primate species
-- Some features may be subtle and require careful observation throughout the entire video
+- Some features may be subtle and require careful observation throughout the entire base64 frames
 - When in doubt about a feature's presence, default to False to avoid false positives
 - Pay attention to both the animal's physical appearance and behavioral patterns
-- Note that some conditions may co-occur, so multiple categories can have True values simultaneously
+- Note that some conditions may co-occur, so multiple categories can have True values simultaneously_
 

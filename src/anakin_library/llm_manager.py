@@ -48,12 +48,20 @@ class LLMManager:
             logger.info("Maximum limit of calls reached (3)")
             return None
 
-        prompt_messages = [
-            {
-                "role": "user",
-                "content": [unidecode(request_prompt), *map(lambda x: {"image": x, "resize": 768}, frames), ],
-            },
-        ]
+        if frames:
+            prompt_messages = [
+                {
+                    "role": "user",
+                    "content": [unidecode(request_prompt), *map(lambda x: {"image": x, "resize": 768}, frames), ],
+                },
+            ]
+        else:
+            prompt_messages = [
+                {
+                    "role": "user",
+                    "content": unidecode(request_prompt),
+                },
+            ]
 
         params = {
             "model": "gpt-4o",
