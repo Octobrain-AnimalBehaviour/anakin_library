@@ -1,80 +1,59 @@
-# Animal Behavior Analyzer
+# Health Report Generation Prompt
 
-The **Animal Behavior Analyzer** is a tool designed to process videos of animals and analyze their behavior to identify potential diseases or health conditions. By leveraging a Retrieval-Augmented Generation (RAG) system, it provides insights into animal health based on observed behaviors.
+## Task Overview
+You are a veterinary report generator. Your task is to analyze the JSON health assessment output from a monkey/ape video analysis and generate a concise, professional paragraph report that summarizes any identified pathologies with their confidence percentages.
 
-## Features
+## Instructions
+1. Review the JSON health assessment data provided
+2. Identify all health indicators marked as "present": true
+3. Calculate the average confidence percentage for each condition category that has positive findings
+4. Generate a professional paragraph report that includes:
+   - Overall health status assessment
+   - Specific pathologies identified with confidence percentages
+   - Severity indicators based on number of positive findings per condition
+   - Recommendations for follow-up if pathologies are detected
 
-- **Video Processing**: Analyze animal behavior from video files.
-- **Health Assessment**: Identify potential diseases or health conditions based on behavior patterns.
-- **RAG System**: Uses a Retrieval-Augmented Generation system to enhance understanding and provide detailed health insights.
-- **Customizable Prompts**: Includes pre-defined prompts for health assessments, which can be tailored for specific use cases.
+## Confidence Interpretation
+- 90-100%: Very High Confidence - "definitively shows"
+- 70-89%: High Confidence - "clearly indicates" 
+- 40-69%: Moderate Confidence - "suggests" or "shows signs of"
+- 0-39%: Low Confidence - "may indicate" or "possible signs of"
 
-## Project Structure
+## Severity Assessment
+For each condition category, assess severity based on number of positive indicators:
+- **Mild**: 1-2 positive indicators
+- **Moderate**: 3-4 positive indicators  
+- **Severe**: 5+ positive indicators
 
+## Report Format
+Generate a single paragraph report following this structure:
+
+"**Health Assessment Summary:** The video analysis of [animal type] reveals [overall status]. [Specific findings with confidence percentages and severity]. [Additional pathologies if present]. [Recommendations based on findings]."
+
+## Example Input Format
+```json
+{
+  "UNDERWEIGHT": {
+    "Concave_Abdomen": {"present": true, "confidence": 0.85, "reasoning": "..."},
+    "Rib_Visibility": {"present": true, "confidence": 0.9, "reasoning": "..."},
+    "Muscle_Wasting": {"present": false, "confidence": 0.8, "reasoning": "..."}
+  },
+  "INJURY_OR_INFECTION": {
+    "Cuts_Abrasions_Bites": {"present": true, "confidence": 0.75, "reasoning": "..."}
+  }
+}
 ```
-.
-├── Makefile                 # Build and automation tasks
-├── pyproject.toml           # Python project configuration
-├── README.md                # Project documentation
-├── demo/                    # Demo scripts and prompts
-│   ├── demo.py              # Example script for running the tool
-│   ├── prompt/              # Pre-defined health assessment prompts
-│   └── rag_papers/          # RAG-related resources
-├── src/                     # Source code
-│   └── anakin_library/      # Core library for video processing and analysis
-└── cceb594d-cd8d-4681-96e2-7cd9a2f5be46/
-    ├── data_level0.bin      # Binary data for processing
-    ├── header.bin           # Metadata for video analysis
-    ├── length.bin           # Length data for video processing
-    └── link_lists.bin       # Link lists for RAG system
-```
 
-## Getting Started
+## Example Output Format
+"**Health Assessment Summary:** The video analysis of the primate reveals concerning health indicators requiring immediate veterinary attention. The animal clearly indicates underweight condition with high confidence (87.5%), showing 2 of 8 assessed indicators including concave abdomen and visible ribs, suggesting moderate nutritional deficiency. Additionally, the assessment suggests possible injury or infection with moderate confidence (75%), evidenced by visible cuts or abrasions. Immediate veterinary examination is recommended to address nutritional status and treat any wounds to prevent secondary infections."
 
-### Prerequisites
+## Special Instructions
+- Only report conditions with at least one "present": true indicator
+- If no pathologies are detected, report "normal health status with no significant concerns identified"
+- Always include confidence percentages in parentheses
+- Use professional veterinary terminology
+- Keep the report concise but comprehensive
+- Always end with appropriate recommendations based on severity of findings
 
-- Python 3.8 or later
-- Required dependencies (listed in [`pyproject.toml`](pyproject.toml))
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd animal-behavior-analyzer
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Usage
-
-1. Run the demo script to analyze a sample video:
-   ```bash
-   python demo/demo.py
-   ```
-
-2. Customize prompts in the [`demo/prompt`](demo/prompt) directory to tailor health assessments for specific animals or conditions.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Submit a pull request with a detailed description of your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Acknowledgments
-
-- The RAG system implementation is inspired by state-of-the-art research in retrieval-augmented generation.
-- Special thanks to contributors and researchers in the field of animal health and behavior analysis.
-
----
-
-For more information, please refer to the documentation or contact the project maintainers.
+## Input Data
+[Paste the JSON health assessment output here]
