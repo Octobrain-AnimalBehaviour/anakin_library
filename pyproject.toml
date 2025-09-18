@@ -13,6 +13,9 @@ dependencies = [
   "Unidecode>=1.4.0",
   "openai>=1.82.0",
   "opencv-python>=4.11.0"
+  "langchain-core>=0.2.0",
+  "langchain-community>=0.2.0",
+  "langchain-text-splitters>=0.0.1"
 ]
 
 [build-system]
